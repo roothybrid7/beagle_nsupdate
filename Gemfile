@@ -12,7 +12,7 @@ gem 'rails3-generators'
 gem 'jquery-rails'
 gem 'mongoid_i18n'
 gem 'i18n_generators'
-gem 'haml-rails-with-i18n'
+gem 'haml-rails'
 gem 'devise'
 
 gem 'unicorn'
