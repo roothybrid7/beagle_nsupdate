@@ -1,0 +1,12 @@
+*.sw?
+*.rbc
+.DS_Store
+coverage
+rdoc
+pkg
+ext
+tmp
+release
+.bundle
+Gemfile.lock
+npm-debug.log

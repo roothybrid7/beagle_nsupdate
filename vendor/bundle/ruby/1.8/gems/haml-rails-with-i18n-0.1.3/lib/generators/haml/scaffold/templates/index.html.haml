@@ -1,0 +1,20 @@
+%h1=t(:index_title, :model => '<%= plural_table_name %>')
+
+.action_links
+  = link_to t(:new_link, :model => '<%= human_name %>'), new_<%= singular_table_name %>_path
+
+%table
+  %tr
+<% for attribute in attributes -%>
+    %th= <%= class_name %>.human_attribute_name '<%= attribute.name %>'
+<% end -%>
+
+  - @<%= plural_table_name %>.each do |<%= singular_table_name %>|
+    %tr
+<% for attribute in attributes -%>
+      %td= <%= singular_table_name %>.<%= attribute.name %>
+<% end -%>
+      %td= link_to t(:show_link), <%= singular_table_name %>
+      %td= link_to t(:edit_link), edit_<%= singular_table_name %>_path(<%= singular_table_name %>)
+      %td= link_to t(:destroy_link), <%= singular_table_name %>, :confirm => t(:confirm_destroy_message), :method => :delete
+

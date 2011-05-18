@@ -1,0 +1,16 @@
+en:
+  edit_link: Edit
+  back_link: Back
+  show_link: Show
+  destroy_link: Destroy
+  new_link: "New %{model}"
+  
+  form_error_explanation:
+    singular: "1 error prohibited this %{model} from being saved"
+    plural: "%{count} errors prohibited this %{model} from being saved"
+  
+  index_title: "Listing %{model}"
+  edit_title: "Editing %{model}"
+  new_title: "New %{model}"
+  
+  confirm_destroy_message: "Are you sure?"
