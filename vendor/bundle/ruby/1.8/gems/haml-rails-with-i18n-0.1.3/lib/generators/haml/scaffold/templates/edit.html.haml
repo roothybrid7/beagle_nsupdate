@@ -1,8 +1,0 @@
-%h1= t(:edit_title, :model => '<%= singular_table_name %>')
-
-.action_links
-  = link_to t(:show_link), @<%= singular_table_name %>
-  \|
-  = link_to t(:back_link), <%= index_helper %>_path
-
-= render 'form'
