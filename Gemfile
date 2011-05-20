@@ -16,11 +16,14 @@ gem 'haml-rails'
 gem 'devise'
 
 gem 'unicorn'
+gem 'fastthread'
+gem 'dnsruby'
 
 # Backend
 gem 'wirble'
 
 group :development, :test do
+    gem 'haml2erb'
     gem 'erb2haml'
     gem 'mongoid-rspec'
     gem 'rspec-rails'

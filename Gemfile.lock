@@ -61,12 +61,14 @@ GEM
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
     diff-lcs (1.1.2)
+    dnsruby (1.52)
     erb2haml (0.1.2)
       haml
       hpricot
       ruby_parser
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    fastthread (1.0.7)
     ffi (1.0.8)
     gherkin (2.3.8)
       json (>= 1.4.6)
@@ -76,6 +78,8 @@ GEM
       activesupport (~> 3.0)
       haml (~> 3.0)
       railties (~> 3.0)
+    haml2erb (0.2.1)
+      mixology
     hpricot (0.8.4)
     i18n (0.5.0)
     i18n_generators (1.0.2)
@@ -94,6 +98,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    mixology (0.2.0)
     mongo (1.3.1)
       bson (>= 1.3.1)
     mongoid (2.0.1)
@@ -136,7 +141,7 @@ GEM
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
       rspec-mocks (~> 2.6.0)
-    rspec-core (2.6.0)
+    rspec-core (2.6.1)
     rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.6.0)
@@ -181,8 +186,11 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   devise
+  dnsruby
   erb2haml
+  fastthread
   haml-rails
+  haml2erb
   i18n_generators
   jquery-rails
   launchy
