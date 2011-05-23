@@ -1,0 +1,20 @@
+= form.fields_for :servers do |server_form|
+  .field
+    = server_form.label :host
+    = server_form.text_field :host
+  .field
+    = server_form.label :port
+    = server_form.number_field :port
+  .field
+    = server_form.label :tsig_key_name
+    = server_form.text_field :tsig_key_name
+  .field
+    = server_form.label :tsig_key_value
+    = server_form.text_field :tsig_key_value
+  .field
+    = server_form.label :is_master
+    = server_form.check_box :is_master
+  - unless server_form.object.nil? || server_form.object.new_record?
+    .field
+      = server_form.label :_destroy, 'Remove:'
+      = server_form.check_box :_destroy

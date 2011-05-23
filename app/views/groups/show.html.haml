@@ -1,0 +1,58 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @group.name
+
+%p
+  %b Description:
+  = @group.description
+
+%p
+  %b Port:
+  = @group.port
+
+%p
+  %b TSIG Key name:
+  = @group.tsig_key_name
+
+%p
+  %b TSIG Key value:
+  = @group.tsig_key_value
+
+%h2 Servers
+- if @group.servers.size > 0
+  %table
+    %tr
+      %th Host
+      %th Port
+      %th TSIG Key name
+      %th TSIG Key value
+      %th Is master?
+    - @group.servers.each do |server|
+      %tr
+        %td= server.host
+        %td= server.port
+        %td= server.tsig_key_name
+        %td= server.tsig_key_value
+        %td= server.is_master
+  %br/
+- else
+  %p No result
+%h2 Zones
+- if @group.zones.size > 0
+  %table
+    %tr
+      %th Name
+      %th
+    - @group.zones.each do |zone|
+      %tr
+        %td= link_to zone.name, zone_path(zone)
+  %br/
+- else
+  %p No result
+= link_to 'Edit', edit_group_path(@group)
+\|
+= link_to 'Destroy', @group, :confirm => 'Are you sure?', :method => :delete
+\|
+= link_to 'Back', groups_path

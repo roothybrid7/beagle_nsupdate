@@ -21,9 +21,9 @@ gem 'dnsruby'
 
 # Backend
 gem 'wirble'
+#gem 'rake' '~> 0.8.7'
 
 group :development, :test do
-    gem 'haml2erb'
     gem 'erb2haml'
     gem 'mongoid-rspec'
     gem 'rspec-rails'

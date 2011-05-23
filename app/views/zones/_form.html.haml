@@ -1,0 +1,19 @@
+= form_for @zone do |f|
+  -if @zone.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@zone.errors.count, "error")} prohibited this zone from being saved:"
+      %ul
+        - @zone.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :description
+    = f.text_area :description, {:cols => 30, :rows => 3}
+  .field
+    = f.label :group
+    = f.collection_select :group, @groups, :id, :name, {:include_blank => '---', :selected => @zone.group_id}
+  .actions
+    = f.submit 'Save'

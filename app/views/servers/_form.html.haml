@@ -1,0 +1,11 @@
+%tr.fields
+  %td.field= f.text_field :host
+  %td.field= f.number_field :port
+  -#%td.field= f.text_field :tsig_key_name
+  -#%td.field= f.text_area :tsig_key_value, {:cols => 40, :rows => 3}
+  %td.field= f.check_box :is_master
+  - unless f.object.nil? || f.object.new_record?
+    %td.field
+      -#= f.label :_destroy, 'Remove:'
+      -#= f.check_box :_destroy
+      = link_to_remove_fields "remove", f

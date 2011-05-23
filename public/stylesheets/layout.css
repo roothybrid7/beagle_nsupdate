@@ -1,0 +1,22 @@
+div#wrapper {
+/*  width: 600px; */
+  color: #666;
+  margin: 10px auto;
+  background-color: #fff;
+}
+
+div#header, div#footer {
+  margin: 5px;
+  padding: 5px;
+}
+
+div#footer {
+  text-align: center;
+}
+
+div#contents {
+  background-color: #fff;
+  margin: 5px;
+  padding: 5px;
+  border: solid 1px #ccc;
+}
