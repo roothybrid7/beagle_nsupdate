@@ -10,7 +10,7 @@ BeagleNsupdate::Application.routes.draw do
     get :all_records, :on => :member
   end
 
-  match 'zones/:id/delete_records' => 'zones#delete_records'
+  match 'zones/:id/delete_records' => 'zones#delete_records', :via => :delete
 
   root :to => "dashboard#index"
 

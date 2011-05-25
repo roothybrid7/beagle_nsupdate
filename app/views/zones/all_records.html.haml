@@ -6,7 +6,7 @@
 
 - if @records
   #records
-    = form_tag({:action => :delete_records}) do
+    = form_tag({:action => :delete_records}, {:method => :delete}) do
       %table
         %tr
           %th
@@ -24,6 +24,6 @@
             %td= record.klass
             %td= record.type
             %td= parse_rdata(record.rdata)
-      = submit_tag
+      = submit_tag "Bulk delete", :confirm => 'Are you sure?'
 %br/
 = link_to 'Back', zones_path
