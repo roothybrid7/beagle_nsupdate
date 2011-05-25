@@ -45,28 +45,59 @@ module BeagleNsupdate
       }.transfer(zone.name)
     end
 
+    def delete_all(records)
+      self.update = zone
+
+      records.each do |rec|
+        name = "#{rec.name}"
+        type = "#{rec.type}"
+        rdata = "#{parse_rdata(rec.rdata)}"
+
+        update.delete(name, type, rdata)
+      end
+
+      resolver_request(update)
+    end
+
+    def add_all(records)
+      self.update = zone
+
+      records.each do |rec|
+        name = "#{rec.name}"
+        type = "#{rec.type}"
+        ttl = "#{rec.ttl}"
+        rdata = "#{parse_rdata(rec.rdata)}"
+
+        update.add(name, type, ttl, rdata)
+      end
+
+      resolver_request(update)
+    end
+
     def delete
       raise ArgumentError, subject.errors unless subject.valid?
+
+      self.update = zone
 
       name = "#{subject.name}"
       type = "#{subject.type}"
       rdata = "#{parse_rdata(subject.rdata)}"
 
-      self.update = zone
       update.delete(name, type, rdata)
 
       resolver_request(update)
     end
 
-    def add(obj, zone)
+    def add
       raise ArgumentError, subject.errors unless subject.valid?
+
+      self.update = zone
 
       name = "#{subject.name}"
       type = "#{subject.type}"
       ttl = "#{subject.ttl}"
       rdata = "#{parse_rdata(subject.rdata)}"
 
-      self.update = zone
       update.add(name, type, ttl, rdata)
 
       resolver_request(update)

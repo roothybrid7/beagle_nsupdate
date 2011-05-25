@@ -6,7 +6,7 @@
 
 - if @records
   #records
-    = form_tag({:action => :delete_records}, {:method => :delete}) do
+    = form_tag({:action => :bulk_delete_records}, {:method => :delete}) do
       %table
         %tr
           %th
@@ -26,4 +26,17 @@
             %td= parse_rdata(record.rdata)
       = submit_tag "Bulk delete", :confirm => 'Are you sure?'
 %br/
+#new_records
+  = form_tag({:action => :bulk_add_records}) do
+    .fields
+      .field
+        = label_tag 'name'
+        = text_field_tag "record[name]"
+        = label_tag 'ttl', nil, {:size => 6}
+        = number_field_tag "record[ttl]"
+        = label_tag 'type'
+        = select_tag("record[type]", options_for_select(['SOA', 'NS', 'A', 'CNAME', 'MX', 'PTR', 'TXT'], 'A'))
+        = label_tag 'rdata'
+        = text_field_tag "record[rdata]", nil, {:size => 50}
+    = submit_tag "Bulk add records"
 = link_to 'Back', zones_path

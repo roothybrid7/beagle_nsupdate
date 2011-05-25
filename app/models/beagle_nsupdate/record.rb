@@ -38,20 +38,26 @@ module BeagleNsupdate
 
       # AFXR
       def all(zone)
-        return nil if zone.group.nil? && zone.group.servers.empty?
-
-        self.group = zone.group
-        self.servers = group.servers
-
-        if masters = servers.select {|s| s.is_master == true }
-          self.master = masters.first
-        else
-          self.master = servers.first
-        end
+        return nil unless prepare(zone)
 
         begin
           result = connection(Dnsruby::ZoneTransfer).transfer(zone)
           instantiate_collection(result)
+        rescue => e
+          Rails.logger.error(e.message)
+          Rails.logger.debug(e.pretty_inspect)
+          nil
+        end
+      end
+
+      def destroy_all(zone, records)
+        return nil unless prepare(zone)
+
+        begin
+          connection(Dnsruby::Resolver, true).tap {|conn|
+            conn.attributes = @@def_attributes
+            conn.zone = zone
+          }.delete_all(records)
         rescue => e
           Rails.logger.error(e.message)
           Rails.logger.debug(e.pretty_inspect)
@@ -72,6 +78,21 @@ module BeagleNsupdate
 
       def instantiate_record(record)
         self.new.import_record(record)
+      end
+
+      private
+
+      def prepare(zone)
+        return nil if zone.group.nil? && zone.group.servers.empty?
+
+        self.group = zone.group
+        self.servers = group.servers
+
+        if masters = servers.select {|s| s.is_master == true }
+          self.master = masters.first
+        else
+          self.master = servers.first
+        end
       end
     end
     # domain rrset: <name:object> <ttl:int> <klass:str> <type:str> <rdata:object OR array>
@@ -142,7 +163,12 @@ module BeagleNsupdate
     end
 
     # name, type, ttl, rdata
-    def save
+    def save(zone)
+      connection(Dnsruby::Resolver, true).tap {|conn|
+        conn.subject = self
+        conn.attributes = @@def_attributes
+        conn.zone = zone
+      }.add
     end
 
     # name, type, rdata

@@ -1,8 +1,8 @@
 class ZonesController < ApplicationController
-  before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :delete_records]
+  before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :bulk_delete_records, :bulk_add_records]
   before_filter :load_zones, :only => [:index]
   before_filter :load_groups, :only => [:new, :edit, :create, :update]
-  before_filter :load_records, :only => [:all_records, :delete_records]
+  before_filter :load_records, :only => [:all_records, :bulk_delete_records, :bulk_add_records]
 
   protected
   def load_zone
@@ -108,11 +108,24 @@ class ZonesController < ApplicationController
     end
   end
 
-  def delete_records
+  def bulk_delete_records
     if params[:records]
       ids = params[:records].map {|param| param[:id] }
       del_recs = ids.inject([]) {|result, id| result << @records.find() {|rec| rec.id == id } }
-      del_recs.each {|rec| rec.destroy(@zone) }
+      BeagleNsupdate::Record.destroy_all(@zone, del_recs)
+#      del_recs.each {|rec| rec.destroy(@zone) }
+    end
+
+    respond_to do |format|
+      format.html { redirect_to(all_records_zone_url) }
+      format.xml  { head :ok }
+    end
+  end
+
+  def bulk_add_records
+    if params[:record]
+      rec = BeagleNsupdate::Record.new(params[:record])
+      rec.save(@zone)
     end
 
     respond_to do |format|
