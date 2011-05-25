@@ -12,6 +12,9 @@
   %b Group:
   = link_to @zone.group.name, group_path(@zone.group) if @zone.group.respond_to?(:name)
 
+-if @zone.group
+  = link_to 'All records', all_records_zone_path(@zone)
+  \|
 = link_to 'Edit', edit_zone_path(@zone)
 \|
 = link_to 'Destroy', @zone, :confirm => 'Are you sure?', :method => :delete

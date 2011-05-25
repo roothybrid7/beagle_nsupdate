@@ -1,7 +1,8 @@
 class ZonesController < ApplicationController
-  before_filter :load_zone, :only => [:show, :edit, :update, :destroy]
+  before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :delete_records]
   before_filter :load_zones, :only => [:index]
   before_filter :load_groups, :only => [:new, :edit, :create, :update]
+  before_filter :load_records, :only => [:all_records, :delete_records]
 
   protected
   def load_zone
@@ -18,6 +19,10 @@ class ZonesController < ApplicationController
 
   def load_groups
     @groups = Group.all.asc(:name)
+  end
+
+  def load_records
+    @records = BeagleNsupdate::Record.all(@zone)
   end
 
   public
@@ -91,6 +96,27 @@ class ZonesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(zones_url) }
+      format.xml  { head :ok }
+    end
+  end
+
+  # Records
+  def all_records
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @records }
+    end
+  end
+
+  def delete_records
+    if params[:records]
+      ids = params[:records].map {|param| param[:id] }
+      del_recs = ids.inject([]) {|result, id| result << @records.find() {|rec| rec.id == id } }
+      del_recs.each {|rec| rec.destroy(@zone) }
+    end
+
+    respond_to do |format|
+      format.html { redirect_to(all_records_zone_url) }
       format.xml  { head :ok }
     end
   end

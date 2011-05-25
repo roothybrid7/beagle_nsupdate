@@ -11,10 +11,12 @@ div#header, div#footer {
 }
 
 div#footer {
+  clear: both;
   text-align: center;
 }
 
 div#contents {
+  clear: both;
   background-color: #fff;
   margin: 5px;
   padding: 5px;

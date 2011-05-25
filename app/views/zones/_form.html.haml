@@ -11,9 +11,11 @@
     = f.text_field :name
   .field
     = f.label :description
+    %br/
     = f.text_area :description, {:cols => 30, :rows => 3}
   .field
     = f.label :group
+    %br/
     = f.collection_select :group, @groups, :id, :name, {:include_blank => '---', :selected => @zone.group_id}
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :disable_with => 'Processing...'

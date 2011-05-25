@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class Server
   include Mongoid::Document
   include Mongoid::Timestamps

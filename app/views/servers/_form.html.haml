@@ -1,11 +1,11 @@
-%tr.fields
-  %td.field= f.text_field :host
-  %td.field= f.number_field :port
-  -#%td.field= f.text_field :tsig_key_name
-  -#%td.field= f.text_area :tsig_key_value, {:cols => 40, :rows => 3}
-  %td.field= f.check_box :is_master
+.fields
+  .field
+    = f.label :host, 'Host:'
+    = f.text_field :host
+    = f.label :port, 'Port:'
+    = f.number_field :port, {:size => 6}
+    = f.label :is_master, 'Master?:'
+    = f.check_box :is_master
   - unless f.object.nil? || f.object.new_record?
-    %td.field
-      -#= f.label :_destroy, 'Remove:'
-      -#= f.check_box :_destroy
+    .field
       = link_to_remove_fields "remove", f

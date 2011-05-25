@@ -8,11 +8,11 @@
   %body
     #wrapper
       = render "shared/header"
+      #navigation
+        %ul.navigation
+          %li= link_to "DNS Groups", groups_path
+          %li= link_to "Zones", zones_path
       #contents
-        #navigation
-          %ul.sidebar
-            %li= link_to "DNS Groups", groups_path
-            %li= link_to "Zones", zones_path
         #main
           = yield
       = render "shared/footer"

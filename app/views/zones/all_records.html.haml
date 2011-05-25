@@ -1,0 +1,29 @@
+%p#notice= notice
+
+%p
+  %b Zone Name:
+  = @zone.name
+
+- if @records
+  #records
+    = form_tag({:action => :delete_records}) do
+      %table
+        %tr
+          %th
+          %th name
+          %th ttl
+          %th class
+          %th type
+          %th rdata
+
+        -@records.each do |record|
+          %tr
+            %td= check_box_tag "records[][id]", record.id
+            %td= record.name
+            %td= record.ttl
+            %td= record.klass
+            %td= record.type
+            %td= parse_rdata(record.rdata)
+      = submit_tag
+%br/
+= link_to 'Back', zones_path

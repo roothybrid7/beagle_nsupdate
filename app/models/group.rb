@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class Group
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -19,5 +21,6 @@ class Group
 
   accepts_nested_attributes_for :servers, :allow_destroy => true,
     :reject_if => lambda {|attrs| attrs[:host].blank? }
-  accepts_nested_attributes_for :zones
+  accepts_nested_attributes_for :zones, :allow_destroy => true,
+    :reject_if => lambda {|attrs| attrs[:name].blank? }
 end
