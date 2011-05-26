@@ -27,7 +27,7 @@
       = submit_tag "Bulk delete", :confirm => 'Are you sure?'
 %br/
 #new_records
-  = form_tag({:action => :bulk_add_records}) do
+  = form_tag({:action => :add_records}) do
     .fields
       .field
         = label_tag 'name'
@@ -38,5 +38,5 @@
         = select_tag("record[type]", options_for_select(['SOA', 'NS', 'A', 'CNAME', 'MX', 'PTR', 'TXT'], 'A'))
         = label_tag 'rdata'
         = text_field_tag "record[rdata]", nil, {:size => 50}
-    = submit_tag "Bulk add records"
+    = submit_tag "add record"
 = link_to 'Back', zones_path

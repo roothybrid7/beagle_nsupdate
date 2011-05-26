@@ -1,8 +1,8 @@
 class ZonesController < ApplicationController
-  before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :bulk_delete_records, :bulk_add_records]
+  before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :bulk_delete_records, :add_records]
   before_filter :load_zones, :only => [:index]
   before_filter :load_groups, :only => [:new, :edit, :create, :update]
-  before_filter :load_records, :only => [:all_records, :bulk_delete_records, :bulk_add_records]
+  before_filter :load_records, :only => [:all_records, :bulk_delete_records, :add_records]
 
   protected
   def load_zone
@@ -11,9 +11,9 @@ class ZonesController < ApplicationController
 
   def load_zones
     if params[:group_id]
-      @zones = Zone.where(:group_id => params[:group_id])
+      @zones = Zone.where(:group_id => params[:group_id])#.paginate(:page => params[:page], :per_page => 10)
     else
-      @zones = Zone.all
+      @zones = Zone.all.paginate(:page => params[:page], :per_page => 10)
     end
   end
 
@@ -122,15 +122,24 @@ class ZonesController < ApplicationController
     end
   end
 
-  def bulk_add_records
+  def add_records
     if params[:record]
-      rec = BeagleNsupdate::Record.new(params[:record])
-      rec.save(@zone)
-    end
+      @record = BeagleNsupdate::Record.new(params[:record])
 
-    respond_to do |format|
-      format.html { redirect_to(all_records_zone_url) }
-      format.xml  { head :ok }
+      respond_to do |format|
+        if @record.save(@zone)
+          format.html { redirect_to(all_records_zone_url, :notice => 'Record was successfully created.') }
+          format.xml  { render :xml => @record, :status => :created, :location => @record }
+        else
+          format.html { redirect_to(all_records_zone_url, :error => "Error: Record creation was failed!") }
+          format.xml  { render :xml => @record.errors, :status => :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to(all_records_zone_url) }
+        format.xml  { head :ok }
+      end
     end
   end
 end

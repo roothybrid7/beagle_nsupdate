@@ -14,6 +14,7 @@ gem 'mongoid_i18n'
 gem 'i18n_generators'
 gem 'haml-rails'
 gem 'devise'
+gem 'will_paginate'
 
 gem 'unicorn'
 gem 'fastthread'

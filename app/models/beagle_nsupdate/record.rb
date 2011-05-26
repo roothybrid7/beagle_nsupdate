@@ -169,6 +169,12 @@ module BeagleNsupdate
         conn.attributes = @@def_attributes
         conn.zone = zone
       }.add
+
+      true
+    rescue => e
+      Rails.logger.error(e.message)
+      Rails.logger.debug(e.inspect)
+      false
     end
 
     # name, type, rdata

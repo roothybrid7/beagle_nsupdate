@@ -1,25 +1,7 @@
 $(function() {
   $('*')
-    .ajaxStart(function() {$('#progress').html('通信中...')})
+    .ajaxStart(function() {$('#progress').html('Progress...')})
     .ajaxComplete(function() {$('#progress').html('')});
-
-//  $('input[title]').each(function() {
-//    if($(this).val() === '') {
-//      $(this).val($(this).attr('title'));
-//    }
-//
-//    $(this).focus(function() {
-//      if($(this).val() === $(this).attr('title')) {
-//        $(this).val('').addClass('focused');
-//      }
-//    });
-//
-//    $(this).blur(function() {
-//      if($(this).val() === '') {
-//        $(this).val($(this).attr('title')).removeClass('focused');
-//      }
-//    });
-//  });
 });
 
 function remove_fields(link) {

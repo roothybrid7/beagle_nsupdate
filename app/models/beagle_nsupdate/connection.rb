@@ -117,6 +117,7 @@ module BeagleNsupdate
       rescue => e
         Rails.logger.error(e.message)
         Rails.logger.debug(e.inspect)
+        raise
       end
     end
 
