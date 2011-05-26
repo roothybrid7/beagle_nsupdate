@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe Server do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should be_embedded_in(:group).as_inverse_of(:servers) }
 end

@@ -1,0 +1,22 @@
+%h1 Listing zones
+
+%table
+  %tr
+    %th Zone
+    %th Group
+    %th
+
+  - @zones.each do |zone|
+    %tr
+      %td= link_to zone.name, zone
+      %td= link_to zone.group.name, group_path(zone.group) if zone.group.respond_to?(:name)
+      %td= link_to 'Edit', edit_zone_path(zone)
+      %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete
+      -if zone.group
+        %td= link_to 'All records', all_records_zone_path(zone)
+      -else
+        %td
+
+%br
+
+= link_to 'New Zone', new_zone_path

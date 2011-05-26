@@ -1,0 +1,11 @@
+.fields
+  .field
+    = f.label :host, 'Host:'
+    = f.text_field :host
+    = f.label :port, 'Port:'
+    = f.number_field :port, {:size => 6}
+    = f.label :is_master, 'Master?:'
+    = f.check_box :is_master
+  - unless f.object.nil? || f.object.new_record?
+    .field
+      = link_to_remove_fields "remove", f
