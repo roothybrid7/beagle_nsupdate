@@ -21,7 +21,7 @@ gem 'dnsruby'
 
 # Backend
 gem 'wirble'
-#gem 'rake' '~> 0.8.7'
+gem 'rake', '~> 0.8.7'
 
 group :development, :test do
     gem 'erb2haml'
