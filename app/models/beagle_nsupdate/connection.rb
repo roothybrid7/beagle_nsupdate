@@ -85,7 +85,13 @@ module BeagleNsupdate
 
       update.delete(name, type, rdata)
 
-      resolver_request(update)
+      begin
+        resolver(server).send_message(update)
+      rescue => e
+        Rails.logger.error(e.message)
+        Rails.logger.debug(e.inspect)
+        raise
+      end
     end
 
     def add
@@ -100,7 +106,13 @@ module BeagleNsupdate
 
       update.add(name, type, ttl, rdata)
 
-      resolver_request(update)
+      begin
+        resolver(server).send_message(update)
+      rescue => e
+        Rails.logger.error(e.message)
+        Rails.logger.debug(e.inspect)
+        raise
+      end
     end
 
     protected
@@ -109,15 +121,15 @@ module BeagleNsupdate
       @update = Dnsruby::Update.new(zone.name)
     end
 
-    def resolver_request(update)
-      begin
-        operator.new(:nameservers => servers, :port => port || 53).tap {|oper|
+    def resolver(server)
+      if server.is_a?(Array)
+        operator.new(:nameservers => server, :port => port || 53).tap do |oper|
           oper.tsig = tsig if tsig
-        }.send_message(update)
-      rescue => e
-        Rails.logger.error(e.message)
-        Rails.logger.debug(e.inspect)
-        raise
+        end
+      else
+        operator.new(:nameserver => server, :port => port || 53).tap do |oper|
+          oper.tsig = tsig if tsig
+        end
       end
     end
 
