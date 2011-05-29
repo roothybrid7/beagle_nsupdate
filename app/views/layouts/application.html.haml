@@ -2,17 +2,24 @@
 %html
   %head
     %title BeagleNsupdate
-    = stylesheet_link_tag :all
+    = stylesheet_link_tag 'import'
+    -#= stylesheet_link_tag :all
     = javascript_include_tag :defaults
     = csrf_meta_tag
   %body
     #wrapper
       = render "shared/header"
-      #navigation
-        %ul.navigation
-          %li= link_to "DNS Groups", groups_path
-          %li= link_to "Zones", zones_path
+      = render "shared/navigation"
       #contents
+        #sub
+          %h2= "Sub Contents"
+          %ul
+            %li= "foo"
+            %li= "foo"
+            %li= "foo"
+            %li= "foo"
+            %li= "foo"
+            %li= "foo"
         #main
           = yield
       = render "shared/footer"
