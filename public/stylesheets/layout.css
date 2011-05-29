@@ -1,5 +1,4 @@
 div#wrapper {
-/*  width: 600px; */
   color: #666;
   margin: 10px auto;
   background-color: #fff;
@@ -10,15 +9,27 @@ div#header, div#footer {
   padding: 5px;
 }
 
-div#footer {
-  clear: both;
-  text-align: center;
-}
-
 div#contents {
-  clear: both;
+  float: left;
   background-color: #fff;
   margin: 5px;
   padding: 5px;
   border: solid 1px #ccc;
+  width: 100%;
+}
+
+div#sub {
+  float: left;
+  width: 20%;
+}
+
+div#main {
+  float: left;
+  width: 80%;
+  overflow: hidden;
+}
+
+div#footer {
+  clear: both;
+  text-align: center;
 }
