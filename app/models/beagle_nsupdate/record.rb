@@ -11,6 +11,18 @@ module BeagleNsupdate
     include ActiveModel::Validations
 #    include ActiveModel::Serialization
 
+#    define_model_callbacks :save
+
+#    before_save do |record|
+#      Rails.logger.debug("Before_save"); Rails.logger.debug(record.inspect)
+#
+##      record.valid?
+#    end
+#
+#    after_save do |record|
+#      Rails.logger.debug("After_save"); Rails.logger.debug(record.inspect)
+#    end
+
     class << self
       attr_accessor :group, :servers, :master
 
@@ -164,17 +176,19 @@ module BeagleNsupdate
 
     # name, type, ttl, rdata
     def save(zone)
-      connection(Dnsruby::Resolver, true).tap {|conn|
-        conn.subject = self
-        conn.attributes = @@def_attributes
-        conn.zone = zone
-      }.add
+        connection(Dnsruby::Resolver, true).tap {|conn|
+          conn.subject = self
+          conn.attributes = @@def_attributes
+          conn.zone = zone
+        }.add
 
-      true
-    rescue => e
-      Rails.logger.error(e.message)
-      Rails.logger.debug(e.inspect)
-      false
+        true
+      rescue => e
+        self.errors['base'] = e.message
+        Rails.logger.error("Record#error" + e.message)
+        Rails.logger.debug(e.inspect)
+        false
+      end
     end
 
     # name, type, rdata

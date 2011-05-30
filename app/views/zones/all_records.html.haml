@@ -1,4 +1,6 @@
 %p#notice= notice
+%p#alert= alert
+= debug @record.errors.count if @record.respond_to?(:errors)
 
 %p
   %b Zone Name:

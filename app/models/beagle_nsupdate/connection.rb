@@ -56,7 +56,13 @@ module BeagleNsupdate
         update.delete(name, type, rdata)
       end
 
-      resolver_request(update)
+      begin
+        resolver(server).send_message(update)
+      rescue => e
+        Rails.logger.error(e.message)
+        Rails.logger.debug(e.inspect)
+        raise
+      end
     end
 
     def add_all(records)
@@ -71,12 +77,16 @@ module BeagleNsupdate
         update.add(name, type, ttl, rdata)
       end
 
-      resolver_request(update)
+      begin
+        resolver(server).send_message(update)
+      rescue => e
+        Rails.logger.error(e.message)
+        Rails.logger.debug(e.inspect)
+        raise
+      end
     end
 
     def delete
-      raise ArgumentError, subject.errors unless subject.valid?
-
       self.update = zone
 
       name = "#{subject.name}"
@@ -95,8 +105,6 @@ module BeagleNsupdate
     end
 
     def add
-      raise ArgumentError, subject.errors unless subject.valid?
-
       self.update = zone
 
       name = "#{subject.name}"
