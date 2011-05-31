@@ -13,6 +13,8 @@
           %li= link_to "DNS Groups", groups_path
           %li= link_to "Zones", zones_path
       #contents
+        %p#notice= notice
+        %p#alert= alert
         #main
           = yield
       = render "shared/footer"
