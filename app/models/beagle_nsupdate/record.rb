@@ -176,19 +176,18 @@ module BeagleNsupdate
 
     # name, type, ttl, rdata
     def save(zone)
-        connection(Dnsruby::Resolver, true).tap {|conn|
-          conn.subject = self
-          conn.attributes = @@def_attributes
-          conn.zone = zone
-        }.add
+      connection(Dnsruby::Resolver, true).tap {|conn|
+        conn.subject = self
+        conn.attributes = @@def_attributes
+        conn.zone = zone
+      }.add
 
-        true
-      rescue => e
-        self.errors['base'] = e.message
-        Rails.logger.error("Record#error" + e.message)
-        Rails.logger.debug(e.inspect)
-        false
-      end
+      true
+    rescue => e
+      self.errors['base'] = e.message
+      Rails.logger.error("Record#save: #{e.message}")
+      Rails.logger.debug(e.inspect)
+      false
     end
 
     # name, type, rdata
@@ -198,6 +197,13 @@ module BeagleNsupdate
         conn.attributes = @@def_attributes
         conn.zone = zone
       }.delete
+
+      true
+    rescue => e
+      self.errors['base'] = e.message
+      Rails.logger.error("Record#destroy: #{e.message}")
+      Rails.logger.debug(e.inspect)
+      false
     end
 
     def each

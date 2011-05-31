@@ -131,8 +131,7 @@ class ZonesController < ApplicationController
           format.html { redirect_to(all_records_zone_url, :notice => 'Record was successfully created.') }
           format.xml  { render :xml => @record, :status => :created, :location => @record }
         else
-logger.debug(@record.errors.pretty_inspect)
-          format.html { redirect_to(all_records_zone_url, :alert => "Error: Record creation was failed!") }
+          format.html { redirect_to(all_records_zone_url, :alert => @record.errors) }
           format.xml  { render :xml => @record.errors, :status => :unprocessable_entity }
         end
       end

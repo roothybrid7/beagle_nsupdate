@@ -59,7 +59,7 @@ module BeagleNsupdate
       begin
         resolver(server).send_message(update)
       rescue => e
-        Rails.logger.error(e.message)
+        Rails.logger.error("Connection#delete_all: #{e.message}")
         Rails.logger.debug(e.inspect)
         raise
       end
@@ -80,7 +80,7 @@ module BeagleNsupdate
       begin
         resolver(server).send_message(update)
       rescue => e
-        Rails.logger.error(e.message)
+        Rails.logger.error("Connection#add_all: #{e.message}")
         Rails.logger.debug(e.inspect)
         raise
       end
@@ -98,7 +98,7 @@ module BeagleNsupdate
       begin
         resolver(server).send_message(update)
       rescue => e
-        Rails.logger.error(e.message)
+        Rails.logger.error("Connection#delete: #{e.message}")
         Rails.logger.debug(e.inspect)
         raise
       end
@@ -117,7 +117,7 @@ module BeagleNsupdate
       begin
         resolver(server).send_message(update)
       rescue => e
-        Rails.logger.error(e.message)
+        Rails.logger.error("Connection#add: #{e.message}")
         Rails.logger.debug(e.inspect)
         raise
       end

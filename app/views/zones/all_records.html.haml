@@ -1,6 +1,11 @@
 %p#notice= notice
-%p#alert= alert
-= debug @record.errors.count if @record.respond_to?(:errors)
+-if alert
+  -if alert.any?
+    #error_explanation
+      %h2= "#{pluralize(alert.count, "error")} prohibited this record from being saved:"
+      %ul
+        - alert.full_messages.each do |msg|
+          %li= msg
 
 %p
   %b Zone Name:
