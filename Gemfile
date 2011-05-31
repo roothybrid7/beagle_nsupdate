@@ -35,6 +35,7 @@ group :development, :test do
     gem 'cucumber'
     gem 'spork'
     gem 'launchy'
+    gem 'ruby-debug'
 end
 # Use unicorn as the web server
 # gem 'unicorn'
