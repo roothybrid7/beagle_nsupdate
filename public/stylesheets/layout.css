@@ -22,3 +22,8 @@ div#contents {
   padding: 5px;
   border: solid 1px #ccc;
 }
+
+/*div#header a.signout {
+  display: block;
+  float: right;
+}*/
