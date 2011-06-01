@@ -166,7 +166,8 @@ module BeagleNsupdate
         tmp_str = send(attr).is_a?(Array) ? send(attr).map {|x| "#{x}" }.join : "#{send(attr)}"
         seed << tmp_str
       end
-      @id = Digest::SHA256.hexdigest(hash_seed)
+      @@msg_digest ||= BeagleNsupdate::Application.config.message_digest_algorithm
+      @id = Digest::const_get(@@msg_digest.to_s.upcase).hexdigest(hash_seed)
 
       extends(record)   # Delegate dnsruby
 

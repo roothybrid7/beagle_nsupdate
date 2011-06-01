@@ -46,5 +46,8 @@ module BeagleNsupdate
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
+
+    # Message Digest: :md5, :rmd160, :sha1, :sha256, :sha384, :sha512
+    config.message_digest_algorithm = :sha256
   end
 end
