@@ -11,7 +11,7 @@ class ZonesController < ApplicationController
 
   def load_zones
     if params[:group_id]
-      @zones = Zone.where(:group_id => params[:group_id])#.paginate(:page => params[:page], :per_page => 10)
+      @zones = Zone.where(:group_id => params[:group_id]).paginate(:page => params[:page], :per_page => 10)
     else
       @zones = Zone.all.paginate(:page => params[:page], :per_page => 10)
     end
