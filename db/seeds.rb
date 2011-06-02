@@ -5,3 +5,15 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
+def adduser(email, password)
+  @user = User.invite!(:email => email) do |u|
+    u.skip_invitation = true
+  end
+  User.accept_invitation!(:invitation_token => @user.invitation_token, :password => password, :password_confirmation => password)
+
+  puts "Created User #{email} with password #{password}"
+end
+
+adduser("user@example.com", "123456")
+adduser("user2@example.com", "123456")
+adduser("user3@example.com", "123456")

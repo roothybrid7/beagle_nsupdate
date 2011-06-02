@@ -11,7 +11,7 @@ class ZonesController < ApplicationController
 
   def load_zones
     if params[:group_id]
-      @zones = Zone.where(:group_id => params[:group_id])#.paginate(:page => params[:page], :per_page => 10)
+      @zones = Zone.where(:group_id => params[:group_id]).paginate(:page => params[:page], :per_page => 10)
     else
       @zones = Zone.all.paginate(:page => params[:page], :per_page => 10)
     end
@@ -131,7 +131,8 @@ class ZonesController < ApplicationController
           format.html { redirect_to(all_records_zone_url, :notice => 'Record was successfully created.') }
           format.xml  { render :xml => @record, :status => :created, :location => @record }
         else
-          format.html { redirect_to(all_records_zone_url, :alert => @record.errors) }
+          flash[:errors] = @record.errors
+          format.html { redirect_to(all_records_zone_url, :alert => 'Record creation was failed!') }
           format.xml  { render :xml => @record.errors, :status => :unprocessable_entity }
         end
       end

@@ -1,11 +1,9 @@
-%p#notice= notice
--if alert
-  -if alert.any?
-    #error_explanation
-      %h2= "#{pluralize(alert.count, "error")} prohibited this record from being saved:"
-      %ul
-        - alert.full_messages.each do |msg|
-          %li= msg
+-unless flash[:errors].nil?
+  #error_explanation
+    %h2= "#{pluralize(flash[:errors].count, "error")} prohibited this record from being saved:"
+    %ul
+      - flash[:errors].full_messages.each do |msg|
+        %li= msg
 
 %p
   %b Zone Name:
