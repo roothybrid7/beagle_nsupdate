@@ -14,6 +14,4 @@ def adduser(email, password)
   puts "Created User #{email} with password #{password}"
 end
 
-adduser("user@example.com", "123456")
-adduser("user2@example.com", "123456")
-adduser("user3@example.com", "123456")
+adduser("admin@example.com", "1qaz2wsx")
