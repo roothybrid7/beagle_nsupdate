@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  respond_to :html, :xml, :json
   before_filter :load_group, :only => [:show, :edit, :update, :destroy]
   before_filter :load_groups, :only => [:index]
 
@@ -15,19 +16,13 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.xml
   def index
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @groups }
-    end
+    respond_with @groups
   end
 
   # GET /groups/1
   # GET /groups/1.xml
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @group }
-    end
+    respond_with @group
   end
 
   # GET /groups/new
@@ -35,10 +30,7 @@ class GroupsController < ApplicationController
   def new
     @group = Group.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @group }
-    end
+    respond_with @group
   end
 
   # GET /groups/1/edit
@@ -54,9 +46,11 @@ class GroupsController < ApplicationController
       if @group.save
         format.html { redirect_to(@group, :notice => 'Group was successfully created.') }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
+        format.json  { render :json => @group, :status => :created, :location => @group }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @group.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -68,9 +62,11 @@ class GroupsController < ApplicationController
       if @group.update_attributes(params[:group])
         format.html { redirect_to(@group, :notice => 'Group was successfully updated.') }
         format.xml  { head :ok }
+        format.json  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @group.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -83,6 +79,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(groups_url) }
       format.xml  { head :ok }
+      format.json  { head :ok }
     end
   end
 end

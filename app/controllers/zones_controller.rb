@@ -1,4 +1,5 @@
 class ZonesController < ApplicationController
+  respond_to :html, :xml, :json
   before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :bulk_delete_records, :add_records]
   before_filter :load_zones, :only => [:index]
   before_filter :load_groups, :only => [:new, :edit, :create, :update]
@@ -29,19 +30,13 @@ class ZonesController < ApplicationController
   # GET /zones
   # GET /zones.xml
   def index
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @zones }
-    end
+    respond_with @zones
   end
 
   # GET /zones/1
   # GET /zones/1.xml
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @zone }
-    end
+    respond_with @zone
   end
 
   # GET /zones/new
@@ -49,10 +44,7 @@ class ZonesController < ApplicationController
   def new
     @zone = Zone.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @zone }
-    end
+    respond_with @zone
   end
 
   # GET /zones/1/edit
@@ -68,9 +60,11 @@ class ZonesController < ApplicationController
       if @zone.save
         format.html { redirect_to(@zone, :notice => 'Zone was successfully created.') }
         format.xml  { render :xml => @zone, :status => :created, :location => @zone }
+        format.json  { render :json => @zone, :status => :created, :location => @zone }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @zone.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @zone.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -82,9 +76,11 @@ class ZonesController < ApplicationController
       if @zone.update_attributes(params[:zone])
         format.html { redirect_to(@zone, :notice => 'Zone was successfully updated.') }
         format.xml  { head :ok }
+        format.json  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @zone.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @zone.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -97,15 +93,13 @@ class ZonesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(zones_url) }
       format.xml  { head :ok }
+      format.json  { head :ok }
     end
   end
 
   # Records
   def all_records
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @records }
-    end
+    respond_with @records
   end
 
   def bulk_delete_records
@@ -119,6 +113,7 @@ class ZonesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(all_records_zone_url) }
       format.xml  { head :ok }
+      format.json  { head :ok }
     end
   end
 
@@ -130,16 +125,19 @@ class ZonesController < ApplicationController
         if @record.save(@zone)
           format.html { redirect_to(all_records_zone_url, :notice => 'Record was successfully created.') }
           format.xml  { render :xml => @record, :status => :created, :location => @record }
+          format.json  { render :json => @record, :status => :created, :location => @record }
         else
           flash[:errors] = @record.errors
           format.html { redirect_to(all_records_zone_url, :alert => 'Record creation was failed!') }
           format.xml  { render :xml => @record.errors, :status => :unprocessable_entity }
+          format.json  { render :json => @record.errors, :status => :unprocessable_entity }
         end
       end
     else
       respond_to do |format|
         format.html { redirect_to(all_records_zone_url) }
         format.xml  { head :ok }
+        format.json  { head :ok }
       end
     end
   end

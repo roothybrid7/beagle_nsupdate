@@ -1,8 +1,5 @@
 BeagleNsupdate::Application.routes.draw do
-  devise_for :users do
-    get '/login' => 'devise/sessions#new'
-    get '/logout' => 'devise/sessions#destroy'
-  end
+  devise_for :users
 
   get "dashboard/index", :as => :user_root
 
