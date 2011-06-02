@@ -18,7 +18,7 @@ BeagleNsupdate::Application.routes.draw do
   match 'zones/:id/bulk_delete_records' => 'zones#bulk_delete_records', :via => :delete
   match 'zones/:id/add_records' => 'zones#add_records', :via => :post
 
-  root :to => "welcome#index"
+  root :to => "dashboard#index"
 
 #  match ':controller(/:action(/:id(.:format)))'
 end
