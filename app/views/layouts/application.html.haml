@@ -13,7 +13,8 @@
         - if user_signed_in?
           #sub
             %h2= "Sub Contents"
-            = render "shared/navigation"
+            -#= render "shared/navigation"
+            = render "shared/sidebar"
         %p#notice= notice
         %p#alert= alert
         #main
