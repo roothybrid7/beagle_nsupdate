@@ -9,17 +9,12 @@
   %body
     #wrapper
       = render "shared/header"
-      = render "shared/navigation"
       #contents
-        #sub
-          %h2= "Sub Contents"
-          %ul
-            %li= "foo"
-            %li= "foo"
-            %li= "foo"
-            %li= "foo"
-            %li= "foo"
-            %li= "foo"
+        - if user_signed_in?
+          #sub
+            %h2= "Sub Contents"
+            -#= render "shared/navigation"
+            = render "shared/sidebar"
         %p#notice= notice
         %p#alert= alert
         #main
