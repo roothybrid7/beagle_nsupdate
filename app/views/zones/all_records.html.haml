@@ -13,12 +13,7 @@
   = f.submit 'Search'
 %br/
 
-.pagination
-  %b Items per page:
-  = params[:per_page] == '5' ? '5' : link_to('5', all_records_zone_path(@zone, :per_page => 5))
-  = params[:per_page] == '25' ? '25' : link_to('25', all_records_zone_path(@zone, :per_page => 25))
-  = params[:per_page] == '50' ? '50' : link_to('50', all_records_zone_path(@zone, :per_page => 50))
-  = params[:per_page].nil? ? 'all' : link_to('all', all_records_zone_path)
+= render :partial => 'shared/per_page', :locals => {:code => link_to_items_per_page_for_records(@zone)}
 
 - if @records
   #records
