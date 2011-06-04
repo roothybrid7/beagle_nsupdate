@@ -2,14 +2,19 @@
 
 module BeagleNsupdate
   class Connection
-    OPERATORS = [Dnsruby::ZoneTransfer, Dnsruby::Resolver]
+    @operators = [Dnsruby::ZoneTransfer, Dnsruby::Resolver]
+
+    class << self
+      attr_accessor :operators
+    end
+
     attr_accessor :subject, :zone
     attr_writer :attributes
     attr_reader :operator, :update, :servers, :server, :port, :tsig
 
     def initialize(operator)
-      unless OPERATORS.include?(operator)
-        raise ArgumentError, "Invalid Operator: #{operator} in #{OPERATORS.join(',')}"
+      unless self.class.operators.include?(operator)
+        raise ArgumentError, "Invalid Operator: #{operator} in #{self.class.operators.join(',')}"
       end
         self.operator = operator
 
