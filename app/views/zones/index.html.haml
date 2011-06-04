@@ -1,23 +1,31 @@
-%h1 DNS zones
+%h2 DNS zones
 
-%table
-  %tr
-    %th Zone
-    %th Group
-    %th
+= form_for @search_form, :url => zones_path, :html => {:method => :get} do |f|
+  = f.search_field :q
+  = f.submit 'Search'
+%br/
 
-  - @zones.each do |zone|
-    %tr
-      %td= link_to zone.name, zone
-      %td= link_to zone.group.name, group_path(zone.group) if zone.group.respond_to?(:name)
-      %td= link_to 'Edit', edit_zone_path(zone)
-      %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete
-      -if zone.group
-        %td= link_to 'All records', all_records_zone_path(zone)
-      -else
-        %td
+.pagination
+  %b Items per page:
+  = params[:per_page] == '5' ? '5' : link_to('5', zones_path(:per_page => 5))
+  = params[:per_page] == '25' ? '25' : link_to('25', zones_path(:per_page => 25))
+  = params[:per_page] == '50' ? '50' : link_to('50', zones_path(:per_page => 50))
+  = params[:per_page].nil? ? 'all' : link_to('all', zones_path)
+
+= form_tag({:action => :bulk_destroy}, {:method => :delete}) do
+  %table
+    %thead
+      %tr
+        %th
+        %th Zone
+        %th Group
+        %th{:colspan => 3} Actions
+
+    %tbody#zones
+      = render @zones
+  = submit_tag "Bulk destroy", :confirm => 'Are you sure?'
 
 = will_paginate @zones
-%br
+%br/
 
 = link_to 'New Zone', new_zone_path

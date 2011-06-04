@@ -9,7 +9,15 @@ class GroupsController < ApplicationController
   end
 
   def load_groups
-    @groups = Group.all
+    @search_form = SearchForm.new(params[:search_form])
+
+    if @search_form.q.present?
+      @groups = Group.name_matches(@search_form.q)
+    else
+      @groups = Group.all
+    end
+
+    @groups = @groups.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   public

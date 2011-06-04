@@ -2,8 +2,7 @@
   %a{:href => "/"}
     %div= image_tag "beagle_nsupdate.png", :id => "logo", :size => "256x128", :alt => "BeagleNsupdate"
   - if user_signed_in?
-    %ul
-      %li
-        = current_user.email
-        = link_to 'Sign out', destroy_user_session_path, :class => 'signout'
+    %ul.profiles
+      %li= current_user.email
       %li= link_to 'Invitation', new_user_invitation_path, :class => 'invitation'
+      %li= link_to 'Sign out', destroy_user_session_path, :class => 'signout'

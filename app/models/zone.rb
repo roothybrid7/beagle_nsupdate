@@ -12,5 +12,7 @@ class Zone
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  scope :name_matches, lambda {|q| where(:name => /#{q}/) }
+
   accepts_nested_attributes_for :group, :reject_if => lambda {|attrs| attrs[:name].blank? || attrs.all? {|k, v| v.blank? } }
 end

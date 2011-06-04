@@ -11,11 +11,19 @@ class ZonesController < ApplicationController
   end
 
   def load_zones
+    @search_form = SearchForm.new(params[:search_form])
+
     if params[:group_id]
-      @zones = Zone.where(:group_id => params[:group_id]).paginate(:page => params[:page], :per_page => 10)
+      @zones = Zone.where(:group_id => params[:group_id])
     else
-      @zones = Zone.all.paginate(:page => params[:page], :per_page => 10)
+      if @search_form.q.present?
+        @zones = Zone.name_matches(@search_form.q)
+      else
+        @zones = Zone.all
+      end
     end
+
+    @zones = @zones.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   def load_groups
@@ -23,7 +31,15 @@ class ZonesController < ApplicationController
   end
 
   def load_records
-    @records = BeagleNsupdate::Record.all(@zone)
+    @search_form = RecordSearchForm.new(params[:record_search_form])
+
+    if @search_form.q.present? || @search_form.type.present?
+      @records = BeagleNsupdate::Record.where(@zone, :name => @search_form.q, :type => @search_form.type)
+    else
+      @records = BeagleNsupdate::Record.all(@zone)
+    end
+
+    @records = @records.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   public
@@ -89,6 +105,20 @@ class ZonesController < ApplicationController
   # DELETE /zones/1.xml
   def destroy
     @zone.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(zones_url) }
+      format.xml  { head :ok }
+      format.json  { head :ok }
+    end
+  end
+
+  # DELETE /zones/bulk_destroy
+  def bulk_destroy
+    if params[:zones]
+      ids = params[:zones].map {|param| param[:id] }
+      del_zones = Zone.where(:id.in=> ids).destroy_all
+    end
 
     respond_to do |format|
       format.html { redirect_to(zones_url) }
