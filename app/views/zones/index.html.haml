@@ -5,7 +5,7 @@
   = f.submit 'Search'
 %br/
 
-= render 'per_page'
+= render :partial => 'shared/per_page', :locals => {:code => link_to_items_per_page}
 
 = form_tag({:action => :bulk_destroy}, {:method => :delete}) do
   %table

@@ -4,7 +4,7 @@
   = f.search_field :q
   = f.submit 'Search'
 
-= render 'per_page'
+= render :partial => 'shared/per_page', :locals => {:code => link_to_items_per_page}
 
 %table
   %thead

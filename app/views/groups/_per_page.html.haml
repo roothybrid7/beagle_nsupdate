@@ -1,5 +1,0 @@
-.pagination
-  %b Items per page:
-  - count_list_per_page.each do |count|
-    = params[:per_page] == count.to_s ? count : link_to(count, groups_path(:per_page => count))
-  = params[:per_page].nil? ? 'all' : link_to('all', groups_path)
