@@ -2,7 +2,7 @@ class ZonesController < ApplicationController
   respond_to :html, :xml, :json
   before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :bulk_delete_records, :bulk_add_records, :add_record]
   before_filter :load_zones, :only => [:index]
-  before_filter :load_groups, :only => [:new, :edit, :create, :update]
+  before_filter :load_groups, :only => [:index, :new, :edit, :create, :update, :bulk_new, :bulk_create]
   before_filter :load_records, :only => [:all_records, :bulk_delete_records, :bulk_add_records, :add_record]
 
   protected
@@ -61,6 +61,9 @@ class ZonesController < ApplicationController
     @zone = Zone.new
 
     respond_with @zone
+  end
+
+  def bulk_new
   end
 
   # GET /zones/1/edit

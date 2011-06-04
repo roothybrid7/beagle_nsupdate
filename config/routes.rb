@@ -11,6 +11,8 @@ BeagleNsupdate::Application.routes.draw do
     resource :group
     get :all_records, :on => :member
     delete :bulk_destroy, :on => :collection
+    post :bulk_create, :on => :collection
+    get :bulk_new, :on => :collection
   end
 
   match 'zones/:id/bulk_delete_records' => 'zones#bulk_delete_records', :via => :delete
