@@ -129,6 +129,8 @@ class ZonesController < ApplicationController
 
   # Records
   def all_records
+    flash[:errors] = BeagleNsupdate::Record.errors if BeagleNsupdate::Record.errors
+
     respond_with @records
   end
 

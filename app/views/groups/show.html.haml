@@ -49,6 +49,11 @@
   %br/
 - else
   %p No result
+
+.zones
+  = field_set_tag 'Zones' do
+    = render 'zones/form_with_group'
+
 = link_to 'Edit', edit_group_path(@group)
 \|
 = link_to 'Destroy', @group, :confirm => 'Are you sure?', :method => :delete

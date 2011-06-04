@@ -12,7 +12,7 @@ module BeagleNsupdate
 #    include ActiveModel::Serialization
 
     class << self
-      attr_accessor :group, :servers, :master
+      attr_accessor :group, :servers, :master, :errors
 
       def group=(group)
         @connection, @group = nil, group
@@ -46,7 +46,12 @@ module BeagleNsupdate
         rescue => e
           Rails.logger.error(e.message)
           Rails.logger.debug(e.pretty_inspect)
-          nil
+          err_obj = self.new.tap do |obj|
+            obj.errors['base'] = e.message
+            self.errors = obj.errors
+          end
+
+          []
         end
       end
 
