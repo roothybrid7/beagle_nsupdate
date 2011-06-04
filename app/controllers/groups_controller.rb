@@ -9,7 +9,12 @@ class GroupsController < ApplicationController
   end
 
   def load_groups
-    @groups = Group.all
+    @search_form = SearchForm.new(params[:search_form])
+#    @groups = Group.all
+    @groups = Group.scoped
+    if @search_form.q.present?
+      @groups = @groups.name_matches(@search_form.q)
+    end
   end
 
   public

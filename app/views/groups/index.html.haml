@@ -1,18 +1,17 @@
 %h1 Server Groups
 
+= form_for @search_form, :url => groups_path, :html => {:method => :get} do |f|
+  = f.search_field :q
+  = f.submit 'Search'
+
 %table
   %tr
     %th Name
     %th Servers
     %th Zones
 
-  - @groups.each do |group|
-    %tr
-      %td= link_to group.name, group
-      %td= group.servers.count
-      %td= link_to group.zones.count, group_zones_path(group)
-      %td= link_to 'Edit', edit_group_path(group)
-      %td= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete
+  -#- @groups.each do |group|
+  = render @groups
 
 %br
 

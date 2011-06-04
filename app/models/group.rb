@@ -19,6 +19,8 @@ class Group
   validates_numericality_of :port, :allow_nil => true
   validates_associated :servers
 
+  scope :name_matches, lambda {|q| where(:name => /#{q}/) }
+
   accepts_nested_attributes_for :servers, :allow_destroy => true,
     :reject_if => lambda {|attrs| attrs[:host].blank? }
   accepts_nested_attributes_for :zones, :allow_destroy => true,
