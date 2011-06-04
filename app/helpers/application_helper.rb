@@ -14,4 +14,12 @@ module ApplicationHelper
     end
     link_to_function(name, raw("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
   end
+
+  def link_to_remove_fields_tag(name, association)
+    hidden_field(association, :_destroy) + link_to_function(name, "remove_fields(this)")
+  end
+
+  def link_to_add_fields_tag(name, view, association)
+    link_to_function(name, raw("add_fields(this, \"#{association}\", \"#{escape_javascript(render(view))}\")"))
+  end
 end

@@ -17,7 +17,7 @@ class GroupsController < ApplicationController
       @groups = Group.all
     end
 
-    @groups = @groups.paginate(:page => params[:page], :per_page => params[:per_page])
+    @groups = @groups.asc(:name).paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   public
@@ -85,7 +85,7 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      format.html { redirect_to(groups_url) }
+      format.html { redirect_to :back }
       format.xml  { head :ok }
       format.json  { head :ok }
     end

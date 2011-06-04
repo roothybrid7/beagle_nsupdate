@@ -18,9 +18,8 @@
 
     %tbody#zones
       = render @zones
+  = will_paginate @zones
   = submit_tag "Bulk destroy", :confirm => 'Are you sure?', :disable_with => 'Processing...'
-
-= will_paginate @zones
 %br/
 
 = link_to 'New Zone', new_zone_path

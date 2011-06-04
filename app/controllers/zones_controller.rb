@@ -1,9 +1,9 @@
 class ZonesController < ApplicationController
   respond_to :html, :xml, :json
-  before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :bulk_delete_records, :add_records]
+  before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :bulk_delete_records, :bulk_add_records, :add_record]
   before_filter :load_zones, :only => [:index]
   before_filter :load_groups, :only => [:new, :edit, :create, :update]
-  before_filter :load_records, :only => [:all_records, :bulk_delete_records, :add_records]
+  before_filter :load_records, :only => [:all_records, :bulk_delete_records, :bulk_add_records, :add_record]
 
   protected
   def load_zone
@@ -23,7 +23,7 @@ class ZonesController < ApplicationController
       end
     end
 
-    @zones = @zones.paginate(:page => params[:page], :per_page => params[:per_page])
+    @zones = @zones.desc(:group_id).asc(:name).paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   def load_groups
@@ -74,7 +74,8 @@ class ZonesController < ApplicationController
 
     respond_to do |format|
       if @zone.save
-        format.html { redirect_to(@zone, :notice => 'Zone was successfully created.') }
+        redirect_path = params[:group_id] ? :back : @zone
+        format.html { redirect_to(redirect_path, :notice => 'Zone was successfully created.') }
         format.xml  { render :xml => @zone, :status => :created, :location => @zone }
         format.json  { render :json => @zone, :status => :created, :location => @zone }
       else
@@ -107,7 +108,7 @@ class ZonesController < ApplicationController
     @zone.destroy
 
     respond_to do |format|
-      format.html { redirect_to(zones_url) }
+      format.html { redirect_to :back }
       format.xml  { head :ok }
       format.json  { head :ok }
     end
@@ -121,7 +122,7 @@ class ZonesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to(zones_url) }
+      format.html { redirect_to :back }
       format.xml  { head :ok }
       format.json  { head :ok }
     end
@@ -149,7 +150,25 @@ class ZonesController < ApplicationController
     end
   end
 
-  def add_records
+  def bulk_add_records
+    if params[:records]
+      add_recs = params[:records].reject {|rec| rec["remove"]["_destroy"] == "1" }
+      add_recs.each {|rec| rec.delete("remove") }
+
+      @records = add_recs.map {|rec| BeagleNsupdate::Record.new(rec) }
+      @records = @records.select {|rec| rec.valid? }
+
+      @records.each {|rec| rec.save(@zone) }
+    end
+
+    respond_to do |format|
+      format.html { redirect_to(all_records_zone_url, :notice => 'Executed Bulk adding Records.') }
+      format.xml  { head :ok }
+      format.json  { head :ok }
+    end
+  end
+
+  def add_record
     if params[:record]
       @record = BeagleNsupdate::Record.new(params[:record])
 

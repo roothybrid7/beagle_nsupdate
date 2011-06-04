@@ -31,11 +31,14 @@
         %tbody#records
           -@records.each do |record|
             = render(:partial => 'records/record', :locals => {:record => record})
+      = will_paginate @records
       = submit_tag "Bulk delete", :confirm => 'Are you sure?', :disable_with => 'Processing...'
-  = will_paginate @records
 %br/
 #new_records
-  = form_tag({:action => :add_records}) do
-    = render 'records/form'
-    = submit_tag "add record", :disable_with => 'Processing...'
+  = field_set_tag 'Records' do
+    = form_tag({:action => :bulk_add_records}) do
+      = render 'records/form'
+      %p= link_to_add_fields_tag 'Add record', 'records/form', :records
+      = submit_tag "bulk insert", :disable_with => 'Processing...'
+
 = link_to 'Back', zones_path
