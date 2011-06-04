@@ -7,17 +7,17 @@
 #sidebar ul.navigation li {
 /*  display: inline; */
   margin-right: 1px;
-  background-color: #666;
-  border: solid 1px #ccc;
+/*  background-color: #666;
+  border: solid 1px #ccc; */
   padding: 5px;
 }
 
 ul.navigation li.selected {
-  background-color: #eee;
+/*  background-color: #eee; */
 }
 
 ul.navigation li a {
-  color: #fff;
+/*  color: #ccc; */
   text-decoration: none;
 }
 

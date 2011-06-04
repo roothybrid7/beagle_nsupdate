@@ -11,11 +11,19 @@ class ZonesController < ApplicationController
   end
 
   def load_zones
+    @search_form = SearchForm.new(params[:search_form])
+
     if params[:group_id]
-      @zones = Zone.where(:group_id => params[:group_id]).paginate(:page => params[:page], :per_page => 10)
+      @zones = Zone.where(:group_id => params[:group_id])
     else
-      @zones = Zone.all.paginate(:page => params[:page], :per_page => 10)
+      if @search_form.q.present?
+        @zones = Zone.name_matches(@search_form.q)
+      else
+        @zones = Zone.all
+      end
     end
+
+    @zones = @zones.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   def load_groups

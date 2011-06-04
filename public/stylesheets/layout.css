@@ -20,12 +20,14 @@ div#contents {
 
 div#sub {
   float: left;
-  width: 20%;
+  width: 15%;
+  margin: 5px;
 }
 
 div#main {
   float: left;
   width: 80%;
+  margin: 5px;
   overflow: hidden;
 }
 
@@ -38,3 +40,18 @@ div#footer {
   display: block;
   float: right;
 }*/
+
+#header ul.profiles {
+  list-style: none;
+  position: absolute;
+  top: 5;
+  right: 0;
+}
+
+#header ul.profiles li {
+  display: inline;
+}
+
+.pagination {
+  text-align: right;
+}
