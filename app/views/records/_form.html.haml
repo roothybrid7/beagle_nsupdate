@@ -1,0 +1,10 @@
+.fields
+  .field
+    = label_tag 'name'
+    = text_field_tag "record[name]"
+    = label_tag 'ttl', nil, {:size => 6}
+    = number_field_tag "record[ttl]"
+    = label_tag 'type'
+    = select_tag("record[type]", options_for_select(['SOA', 'NS', 'A', 'CNAME', 'MX', 'PTR', 'TXT'], 'A'))
+    = label_tag 'rdata'
+    = text_field_tag "record[rdata]", nil, {:size => 50}

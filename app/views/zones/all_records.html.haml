@@ -7,39 +7,40 @@
 
 %h2= "Zone Name: #{@zone.name}"
 
+= form_for @search_form, :url => all_records_zone_path(@zone), :html => {:method => :get} do |f|
+  = f.search_field :q
+  = f.select :type, options_for_select(['SOA', 'NS', 'A', 'CNAME', 'MX', 'PTR', 'TXT', 'ANY'], @search_form.type || 'ANY')
+  = f.submit 'Search'
+%br/
+
+.pagination
+  %b Items per page:
+  = params[:per_page] == '5' ? '5' : link_to('5', all_records_zone_path(@zone, :per_page => 5))
+  = params[:per_page] == '25' ? '25' : link_to('25', all_records_zone_path(@zone, :per_page => 25))
+  = params[:per_page] == '50' ? '50' : link_to('50', all_records_zone_path(@zone, :per_page => 50))
+  = params[:per_page].nil? ? 'all' : link_to('all', all_records_zone_path)
+
 - if @records
   #records
     = form_tag({:action => :bulk_delete_records}, {:method => :delete}) do
       %table
-        %tr
-          %th
-          %th name
-          %th ttl
-          %th class
-          %th type
-          %th rdata
-
-        -@records.each do |record|
+        %thead
           %tr
-            %td= check_box_tag "records[][id]", record.id
-            %td= record.name
-            %td= record.ttl
-            %td= record.klass
-            %td= record.type
-            %td= parse_rdata(record.rdata)
+            %th
+            %th name
+            %th ttl
+            %th class
+            %th type
+            %th rdata
+
+        %tbody#records
+          -@records.each do |record|
+            = render :partial => 'records/record', :locals => {:record => record}
       = submit_tag "Bulk delete", :confirm => 'Are you sure?'
+  = will_paginate @records
 %br/
 #new_records
   = form_tag({:action => :add_records}) do
-    .fields
-      .field
-        = label_tag 'name'
-        = text_field_tag "record[name]"
-        = label_tag 'ttl', nil, {:size => 6}
-        = number_field_tag "record[ttl]"
-        = label_tag 'type'
-        = select_tag("record[type]", options_for_select(['SOA', 'NS', 'A', 'CNAME', 'MX', 'PTR', 'TXT'], 'A'))
-        = label_tag 'rdata'
-        = text_field_tag "record[rdata]", nil, {:size => 50}
+    = render 'records/form'
     = submit_tag "add record"
 = link_to 'Back', zones_path

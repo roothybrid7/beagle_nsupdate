@@ -1,4 +1,5 @@
 %tr
+  %td= check_box_tag "zones[][id]", zone.id
   %td= link_to zone.name, zone
   %td= link_to zone.group.name, group_path(zone.group) if zone.group.respond_to?(:name)
   %td= link_to 'Edit', edit_zone_path(zone)

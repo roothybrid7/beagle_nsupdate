@@ -1,0 +1,7 @@
+%tr
+  %td= check_box_tag "records[][id]", record.id
+  %td= record.name
+  %td= record.ttl
+  %td= record.klass
+  %td= record.type
+  %td= parse_rdata(record.rdata)

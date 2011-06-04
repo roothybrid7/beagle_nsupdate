@@ -62,6 +62,26 @@ module BeagleNsupdate
         end
       end
 
+      def where(zone, params={})
+        result = all(zone)
+
+        return result if params.empty?
+
+        if params[:type] && params[:type] != 'ANY'
+          result = result.select do |rec|
+            rec.type.to_s == params[:type]
+          end
+        end
+
+        if params[:name]
+          result = result.select do |rec|
+            rec.name.to_s =~ /#{params[:name]}/
+          end
+        end
+
+        result
+      end
+
       def destroy_all(zone, records)
         return nil unless prepare(zone)
 
@@ -205,6 +225,10 @@ module BeagleNsupdate
       Rails.logger.error("Record#destroy: #{e.message}")
       Rails.logger.debug(e.inspect)
       false
+    end
+
+    def where(zone, params)
+      self.class.where(zone, params)
     end
 
     def each
