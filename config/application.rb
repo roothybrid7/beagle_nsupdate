@@ -49,5 +49,8 @@ module BeagleNsupdate
 
     # Message Digest: :md5, :rmd160, :sha1, :sha256, :sha384, :sha512
     config.message_digest_algorithm = :sha256
+
+    # item count list per page
+    config.count_list_per_page = [5, 25, 100]
   end
 end

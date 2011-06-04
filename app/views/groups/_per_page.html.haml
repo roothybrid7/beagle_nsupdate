@@ -1,6 +1,5 @@
 .pagination
   %b Items per page:
-  = params[:per_page] == '5' ? '5' : link_to('5', groups_path(:per_page => 5))
-  = params[:per_page] == '25' ? '25' : link_to('25', groups_path(:per_page => 25))
-  = params[:per_page] == '50' ? '50' : link_to('50', groups_path(:per_page => 50))
+  - count_list_per_page.each do |count|
+    = params[:per_page] == count.to_s ? count : link_to(count, groups_path(:per_page => count))
   = params[:per_page].nil? ? 'all' : link_to('all', groups_path)
