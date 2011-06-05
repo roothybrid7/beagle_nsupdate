@@ -52,5 +52,8 @@ module BeagleNsupdate
 
     # item count list per page
     config.count_list_per_page = [5, 25, 100]
+
+    # item count on sidebar
+    config.count_list_per_page_on_sidebar = 5
   end
 end
