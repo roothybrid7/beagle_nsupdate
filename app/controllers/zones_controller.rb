@@ -2,7 +2,7 @@ class ZonesController < ApplicationController
   respond_to :html, :xml, :json
   before_filter :load_zone, :only => [:show, :edit, :update, :destroy, :all_records, :bulk_delete_records, :bulk_add_records, :add_record]
   before_filter :load_zones, :only => [:index]
-  before_filter :load_groups, :only => [:index, :new, :edit, :create, :update, :bulk_new, :bulk_create]
+  before_filter :load_groups, :only => [:index, :new, :edit, :create, :update, :bulk_insert]
   before_filter :load_records, :only => [:all_records, :bulk_delete_records, :bulk_add_records, :add_record]
 
   protected
@@ -63,9 +63,6 @@ class ZonesController < ApplicationController
     respond_with @zone
   end
 
-  def bulk_new
-  end
-
   # GET /zones/1/edit
   def edit
   end
@@ -86,6 +83,23 @@ class ZonesController < ApplicationController
         format.xml  { render :xml => @zone.errors, :status => :unprocessable_entity }
         format.json  { render :json => @zone.errors, :status => :unprocessable_entity }
       end
+    end
+  end
+
+  def bulk_insert
+    if params[:zones]
+      add_zones = params[:zones].reject {|zone| zone["remove"]["_destroy"] == "1" }
+      add_zones.each {|zone| zone.delete("remove") }
+      @zones = add_zones.map {|zone| Zone.new(zone) }
+      @zones = @zones.select {|zone| zone.valid? }
+
+      @zones.each {|zone| zone.save }
+    end
+
+    respond_to do |format|
+      format.html { redirect_to(zones_url, :notice => 'Executed Bulk insert zones.') }
+      format.xml  { head :ok }
+      format.json  { head :ok }
     end
   end
 
@@ -165,7 +179,7 @@ class ZonesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to(all_records_zone_url, :notice => 'Executed Bulk adding Records.') }
+      format.html { redirect_to(all_records_zone_url, :notice => 'Executed Bulk add Records.') }
       format.xml  { head :ok }
       format.json  { head :ok }
     end

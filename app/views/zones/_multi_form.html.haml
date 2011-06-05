@@ -1,9 +1,0 @@
-.fields
-  .field
-    = f.label :name, 'Name:'
-    = f.text_field :name
-    = f.label :description, 'Description:'
-    = f.text_field :description
-    = f.hidden_field :group_id, :value => f.object.id
-  .field
-    = link_to_remove_fields "remove", f

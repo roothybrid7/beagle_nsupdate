@@ -21,8 +21,11 @@
   = will_paginate @zones
   = submit_tag "Bulk destroy", :confirm => 'Are you sure?', :disable_with => 'Processing...'
 %br/
-
+#new_zones
+  = field_set_tag 'Zones' do
+    = form_tag({:action => :bulk_insert}) do
+      = render 'bulk_form'
+      %p= link_to_add_fields_tag 'Add zone', 'bulk_form', :zones
+      = submit_tag "bulk insert", :disable_with => 'Processing...'
+%br/
 = link_to 'New Zone', new_zone_path
-= form_tag({:action => :bulk_new}, {:method => :get}) do
-  = collection_select @groups.name.downcase.pluralize, :id, @groups, :id, :name, {:include_blank => '---'}
-  = submit_tag 'Bulk new Zones', :disable_with => 'Processing...'

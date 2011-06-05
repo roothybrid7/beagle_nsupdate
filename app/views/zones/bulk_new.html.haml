@@ -1,4 +1,10 @@
 %h2 Bulk add zones
 
+#new_zones
+  = field_set_tag 'Zones' do
+    = form_tag({:action => :bulk_new}, {:method => :get}) do
+      = render 'bulk_form'
+      %p= link_to_add_fields_tag 'Add zone', 'bulk_form', :zones
+      = submit_tag "bulk insert", :disable_with => 'Processing...'
 %br/
 = link_to 'Back', zones_path
