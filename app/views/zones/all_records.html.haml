@@ -10,7 +10,7 @@
 = form_for @search_form, :url => all_records_zone_path(@zone), :html => {:method => :get} do |f|
   = f.search_field :q
   = f.select :type, options_for_select(['SOA', 'NS', 'A', 'CNAME', 'MX', 'PTR', 'TXT', 'ANY'], @search_form.type || 'ANY')
-  = f.submit 'Search'
+  = f.submit 'Search', :disable_with => 'Processing...'
 %br/
 
 = render :partial => 'shared/per_page', :locals => {:code => link_to_items_per_page_for_records(@zone)}
@@ -30,12 +30,15 @@
 
         %tbody#records
           -@records.each do |record|
-            = render :partial => 'records/record', :locals => {:record => record}
-      = submit_tag "Bulk delete", :confirm => 'Are you sure?'
-  = will_paginate @records
+            = render(:partial => 'records/record', :locals => {:record => record})
+      = will_paginate @records
+      = submit_tag "Bulk delete", :confirm => 'Are you sure?', :disable_with => 'Processing...'
 %br/
 #new_records
-  = form_tag({:action => :add_records}) do
-    = render 'records/form'
-    = submit_tag "add record"
+  = field_set_tag 'Records' do
+    = form_tag({:action => :bulk_add_records}) do
+      = render 'records/form'
+      %p= link_to_add_fields_tag 'Add record', 'records/form', :records
+      = submit_tag "bulk insert", :disable_with => 'Processing...'
+
 = link_to 'Back', zones_path

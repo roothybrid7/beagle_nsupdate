@@ -1,7 +1,0 @@
-.fields
-  .field
-    = f.label :name
-    = f.text_field :name
-  - unless f.object.nil? || f.object.new_record?
-    .field
-      = link_to_remove_fields "remove", f
