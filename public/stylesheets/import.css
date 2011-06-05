@@ -2,7 +2,7 @@
 
 @import "reset.css";
 @import "default.css";
+@import "scaffold.css";
 @import "layout.css";
 @import "sidebar.css";
 @import "pagination.css";
-@import "scaffold.css";
