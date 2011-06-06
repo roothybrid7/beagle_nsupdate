@@ -1,7 +1,7 @@
 .bundle
 Gemfile.lock
 db/*.sqlite3
-db/seed.rb
+db/seed(.*)?.rb
 log/*.log
 tmp/*
 !tmp/README
