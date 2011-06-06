@@ -17,8 +17,7 @@
   %tbody#groups
     = render @groups
 
-- if params[:per_page]
-  = will_paginate @groups
+= will_paginate @groups
 %br
 
 = link_to 'New Group', new_group_path
