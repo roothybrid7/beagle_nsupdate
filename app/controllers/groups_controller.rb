@@ -17,7 +17,8 @@ class GroupsController < ApplicationController
       @groups = Group.all
     end
 
-    @groups = @groups.asc(:name).paginate(:page => params[:page], :per_page => params[:per_page])
+    @groups = @groups.asc(:name)
+    @groups = @groups.paginate(:page => params[:page], :per_page => params[:per_page]) if params[:per_page]
   end
 
   public
