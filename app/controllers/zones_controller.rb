@@ -23,7 +23,8 @@ class ZonesController < ApplicationController
       end
     end
 
-    @zones = @zones.desc(:group_id).asc(:name).paginate(:page => params[:page], :per_page => params[:per_page])
+    @zones = @zones.desc(:group_id).asc(:name)
+    @zones = @zones.paginate(:page => params[:page], :per_page => params[:per_page]) if params[:per_page]
   end
 
   def load_groups
@@ -39,7 +40,7 @@ class ZonesController < ApplicationController
       @records = BeagleNsupdate::Record.all(@zone)
     end
 
-    @records = @records.paginate(:page => params[:page], :per_page => params[:per_page])
+    @records = @records.paginate(:page => params[:page], :per_page => params[:per_page]) if params[:per_page]
   end
 
   public
