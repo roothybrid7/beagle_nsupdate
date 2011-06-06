@@ -1,0 +1,11 @@
+.fields
+  .field
+    = label_tag 'name'
+    = text_field_tag "records[][name]"
+    = label_tag 'ttl', nil, {:size => 6}
+    = number_field_tag "records[][ttl]"
+    = label_tag 'type'
+    = select_tag("records[][type]", options_for_select(['SOA', 'NS', 'A', 'CNAME', 'MX', 'PTR', 'TXT'], 'A'))
+    = label_tag 'rdata'
+    = text_field_tag "records[][rdata]", nil, {:size => 50}
+    %span.remove_tag= link_to_remove_fields_tag "remove", "records[][remove]"

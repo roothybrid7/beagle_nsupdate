@@ -1,0 +1,40 @@
+#group
+  = form_for @group do |f|
+    -if @group.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@group.errors.count, "error")} prohibited this group from being saved:"
+        %ul
+          - @group.errors.full_messages.each do |msg|
+            %li= msg
+
+    .field
+      = f.label :name
+      %br/
+      = f.text_field :name, :title => "Name"
+    .field
+      = f.label :description
+      %br/
+      = f.text_area :description, {:cols => 40, :rows => 5}
+    .field
+      = f.label :port
+      %br/
+      = f.number_field :port, :title => "Port"
+    .field
+      = f.label :tsig_key_name
+      %br/
+      = f.text_field :tsig_key_name, :title => "TSIG Key name"
+    .field
+      = f.label :tsig_key_value
+      %br/
+      = f.text_area :tsig_key_value, {:cols => 40, :rows => 3}
+
+    .servers
+      = field_set_tag 'Servers' do
+        - unless f.object.servers.size > 0
+          - @group.servers.build
+        = f.fields_for :servers do |server_form|
+          = render 'servers/form', :f => server_form
+          %p= link_to_add_fields "Add server", f, :servers
+
+    .actions
+      = f.submit 'Save', :disable_with => 'Processing...'

@@ -1,0 +1,11 @@
+.pagination
+  %b Items per page:
+  - count_list_per_page.each do |count|
+    - if params[:per_page] == count.to_s
+      %span.current= count
+    - else
+      = code.call(count)
+  - if params[:per_page].nil?
+    %span.current= 'all'
+  - else
+    = code.call('all')

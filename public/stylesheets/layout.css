@@ -1,0 +1,57 @@
+div#wrapper {
+  color: #666;
+  margin: 10px auto;
+  background-color: #fff;
+}
+
+div#header, div#footer {
+  margin: 5px;
+  padding: 5px;
+}
+
+div#contents {
+  float: left;
+  background-color: #fff;
+  margin: 5px;
+  padding: 5px;
+  border: solid 1px #ccc;
+  width: 100%;
+}
+
+div#sub {
+  float: left;
+  width: 15%;
+  margin: 5px;
+}
+
+div#main {
+  float: left;
+  width: 80%;
+  margin: 5px;
+  overflow: hidden;
+}
+
+div#footer {
+  clear: both;
+  text-align: center;
+}
+
+/*div#header a.signout {
+  display: block;
+  float: right;
+}*/
+
+#header ul.profiles {
+  list-style: none;
+  position: absolute;
+  top: 5;
+  right: 0;
+}
+
+#header ul.profiles li {
+  display: inline;
+}
+
+.pagination {
+  text-align: right;
+}

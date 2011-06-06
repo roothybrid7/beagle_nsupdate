@@ -1,0 +1,45 @@
+-unless flash[:errors].nil?
+  #error_explanation
+    %h2= "#{pluralize(flash[:errors].count, "error")} prohibited this record from being saved:"
+    %ul
+      - flash[:errors].full_messages.each do |msg|
+        %li= msg
+
+%h2= "Zone Name: #{@zone.name}"
+
+= form_for @search_form, :url => all_records_zone_path(@zone), :html => {:method => :get} do |f|
+  = f.search_field :q
+  = f.select :type, options_for_select(['SOA', 'NS', 'A', 'CNAME', 'MX', 'PTR', 'TXT', 'ANY'], @search_form.type || 'ANY')
+  = f.submit 'Search', :disable_with => 'Processing...'
+%br/
+
+= render :partial => 'shared/per_page', :locals => {:code => link_to_items_per_page_for_records(@zone)}
+
+- if @records
+  #records
+    = form_tag({:action => :bulk_delete_records}, {:method => :delete}) do
+      %table
+        %thead
+          %tr
+            %th
+            %th name
+            %th ttl
+            %th class
+            %th type
+            %th rdata
+
+        %tbody#records
+          -@records.each do |record|
+            = render(:partial => 'records/record', :locals => {:record => record})
+      - if params[:per_page]
+        = will_paginate @records
+      = submit_tag "Bulk delete", :confirm => 'Are you sure?', :disable_with => 'Processing...'
+%br/
+#new_records
+  = field_set_tag 'Records' do
+    = form_tag({:action => :bulk_add_records}) do
+      = render 'records/form'
+      %p= link_to_add_fields_tag 'Add record', 'records/form', :records
+      = submit_tag "bulk insert", :disable_with => 'Processing...'
+
+= link_to 'Back', zones_path

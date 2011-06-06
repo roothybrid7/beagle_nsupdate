@@ -1,0 +1,13 @@
+/*input[value=""], input[type="number"] {
+  border: 1px solid #CCC;
+  color: #999;
+  font: inherit;
+  padding: 4px;
+  width: 230px;
+}*/
+
+/*input[type="text"]:focus, input[type="text"].focused,
+  input[type="number"]:focus, input[type="number"].focused {
+  border-color: #333;
+  color: #333;
+}*/

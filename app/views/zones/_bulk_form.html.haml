@@ -1,0 +1,8 @@
+.fields
+  .field
+    = label_tag 'name'
+    = text_field_tag "zones[][name]"
+    = label_tag 'description'
+    = text_field_tag "zones[][description]", {}, {:size => 32}
+    = select_tag "zones[][group_id]", options_from_collection_for_select(@groups, :id, :name), {:include_blank => '---'}
+    %span.remove_tag= link_to_remove_fields_tag "remove", "zones[][remove]"
