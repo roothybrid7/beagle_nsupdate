@@ -10,7 +10,7 @@ Nsupdate Web console(DynamicDNS)
 
 == Step
 
-1. Set up:
+=== Set up:
 
 Install rubygems and configure mongoid
 
@@ -54,7 +54,7 @@ Or:
       #password: <%= ENV['MONGOID_PASSWORD'] %>
       database: beagle_nsupdate
 
-2. Add initial user
+=== Add initial user
 
     $ cp db/seeds.rb.sample db/seeds.rb
     $ vim db/seeds.rb
@@ -76,7 +76,7 @@ Create:
 
     $ rake db:seed
 
-3. Modified environment settings
+=== Modified environment settings
 
     # config/initializers/devise.rb
     [...]
