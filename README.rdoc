@@ -12,7 +12,50 @@ Nsupdate Web console(DynamicDNS)
 
 1. Set up:
 
+Install rubygems and configure mongoid
+
     $ bundle install --path vendor/bundle
+    $ cp config/mongoid.yml.sample config/mongoid.yml
+
+Or:
+
+    $ rails generate mongoid:config
+    $ vim config/mongoid.yml
+
+    # config/mongoid.yml
+    defaults: &defaults
+      host: localhost
+      # slaves:
+      #   - host: slave1.local
+      #     port: 27018
+      #   - host: slave2.local
+      #     port: 27019
+
+    development:
+      <<: *defaults
+      database: beagle_nsupdate_development   #<= if use development, mondified database name
+
+    test:
+      <<: *defaults
+      database: beagle_nsupdate_test
+
+    # set these environment variables on your prod server
+    production:
+      host: <%= ENV['MONGOID_HOST'] %>
+      port: <%= ENV['MONGOID_PORT'] %>
+      username: <%= ENV['MONGOID_USERNAME'] %>
+      password: <%= ENV['MONGOID_PASSWORD'] %>
+      database: <%= ENV['MONGOID_DATABASE'] %>
+
+      # => if use production, configure production settings
+      host: localhost
+      port: 27017
+      #username: <%= ENV['MONGOID_USERNAME'] %>
+      #password: <%= ENV['MONGOID_PASSWORD'] %>
+      database: beagle_nsupdate
+
+2. Add initial user
+
     $ cp db/seeds.rb.sample db/seeds.rb
     $ vim db/seeds.rb
 
@@ -26,9 +69,11 @@ Nsupdate Web console(DynamicDNS)
       puts "Created User #{email} with password #{password}"
     end
 
-    adduser("admin@example.com", "passwd")    # Add initial user
+    adduser("admin@example.com", "passwd")    #<= Create initial user
 
-2. Add initial user
+
+Create:
+
     $ rake db:seed
 
 3. Modified environment settings
@@ -58,7 +103,8 @@ if production:
     # config/environments/production.rb
     [...]
     #config.action_mailer.raise_delivery_errors = false
-    config.action_mailer.default_url_options = {:host => 'prod-server.prod.domain.com'}  #<= modify the app url
+    config.action_mailer.default_url_options = {:host => ENV['HTTP_HOST'] || 'localhost:3000' }
+    #=> config.action_mailer.default_url_options = {:host => 'prod-server.prod.domain.com'}  #<= modify the app url
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.perform_deliveries = true
 
@@ -66,3 +112,4 @@ if production:
 4. Launch
 
     $ rails server
+
