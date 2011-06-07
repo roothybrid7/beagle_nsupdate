@@ -7,3 +7,4 @@ tmp/*
 !tmp/README
 vendor/bundle/*
 nohup.out
+mongoid.yml
