@@ -15,11 +15,17 @@ Nsupdate Web console(DynamicDNS)
 Install rubygems and configure mongoid
 
     $ bundle install --path vendor/bundle
+
+create mongoid.yml
+
     $ cp config/mongoid.yml.sample config/mongoid.yml
 
 Or:
 
     $ rails generate mongoid:config
+
+configure mongoid.yml
+
     $ vim config/mongoid.yml
 
     # config/mongoid.yml
@@ -109,7 +115,12 @@ if production:
     config.action_mailer.perform_deliveries = true
 
 
-4. Launch
+=== Launch
+
+if use development
 
     $ rails server
 
+Or if use production
+
+    $ rails server -e production
