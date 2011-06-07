@@ -54,8 +54,9 @@ configure mongoid.yml
       database: <%= ENV['MONGOID_DATABASE'] %>
 
       # => if use production, configure production settings
+      <<: *defaults
       host: localhost
-      port: 27017
+      #port: <%= ENV['MONGOID_PORT'] %>
       #username: <%= ENV['MONGOID_USERNAME'] %>
       #password: <%= ENV['MONGOID_PASSWORD'] %>
       database: beagle_nsupdate
