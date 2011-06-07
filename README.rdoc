@@ -1,0 +1,126 @@
+= BeagleNsupdate
+
+Nsupdate Web console(DynamicDNS)
+
+== Requirements
+
+* Ruby v1.8.7
+* Rails v3.x.x
+* Mongodb v1.8.x
+
+== Step
+
+=== Set up:
+
+Install rubygems and configure mongoid
+
+    $ bundle install --path vendor/bundle
+
+create mongoid.yml
+
+    $ cp config/mongoid.yml.sample config/mongoid.yml
+
+Or:
+
+    $ rails generate mongoid:config
+
+configure mongoid.yml
+
+    $ vim config/mongoid.yml
+
+    # config/mongoid.yml
+    defaults: &defaults
+      host: localhost
+      # slaves:
+      #   - host: slave1.local
+      #     port: 27018
+      #   - host: slave2.local
+      #     port: 27019
+
+    development:
+      <<: *defaults
+      database: beagle_nsupdate_development   #<= if use development, mondified database name
+
+    test:
+      <<: *defaults
+      database: beagle_nsupdate_test
+
+    # set these environment variables on your prod server
+    production:
+      host: <%= ENV['MONGOID_HOST'] %>
+      port: <%= ENV['MONGOID_PORT'] %>
+      username: <%= ENV['MONGOID_USERNAME'] %>
+      password: <%= ENV['MONGOID_PASSWORD'] %>
+      database: <%= ENV['MONGOID_DATABASE'] %>
+
+      # => if use production, configure production settings
+      host: localhost
+      port: 27017
+      #username: <%= ENV['MONGOID_USERNAME'] %>
+      #password: <%= ENV['MONGOID_PASSWORD'] %>
+      database: beagle_nsupdate
+
+=== Add initial user
+
+    $ cp db/seeds.rb.sample db/seeds.rb
+    $ vim db/seeds.rb
+
+    # db/seeds.rb
+    def adduser(email, password)
+      @user = User.invite!(:email => email) do |u|
+        u.skip_invitation = true
+      end
+      User.accept_invitation!(:invitation_token => @user.invitation_token, :password => password, :password_confirmation => password)
+
+      puts "Created User #{email} with password #{password}"
+    end
+
+    adduser("admin@example.com", "passwd")    #<= Create initial user
+
+
+Create:
+
+    $ rake db:seed
+
+=== Modified environment settings
+
+    # config/initializers/devise.rb
+    [...]
+    Devise.setup do |config|
+      # ==> Mailer Configuration
+      # Configure the e-mail address which will be shown in DeviseMailer.
+      config.mailer_sender = "beagle-nsupdate@prod.example.com"         #<= modify the mail address
+
+      # Configure the class responsible to send e-mails.
+      # config.mailer = "Devise::Mailer"
+    [...]
+
+if development:
+
+    # config/environments/development.rb
+    [...]
+    #config.action_mailer.raise_delivery_errors = false
+    config.action_mailer.default_url_options = {:host => 'dev-server:3000'}     #<= modify the app url
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.perform_deliveries = true
+
+if production:
+
+    # config/environments/production.rb
+    [...]
+    #config.action_mailer.raise_delivery_errors = false
+    config.action_mailer.default_url_options = {:host => ENV['HTTP_HOST'] || 'localhost:3000' }
+    #=> config.action_mailer.default_url_options = {:host => 'prod-server.prod.domain.com'}  #<= modify the app url
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.perform_deliveries = true
+
+
+=== Launch
+
+if use development
+
+    $ rails server
+
+Or if use production
+
+    $ rails server -e production
